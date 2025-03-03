@@ -628,8 +628,10 @@ public class DexClass extends DexDeclaration implements ClassProgram, Comparable
     public String buildSmaliPath(){
         String type = getKey().getTypeName();
         type = type.substring(1, type.length() - 1);
+        int hashCode = type.hashCode();
+        type = type.replaceAll("[^\\x00-\\x7F]", "");
         type = type.replace('/', File.separatorChar);
-        type = type + ".smali";
+        type = type + "_" + Integer.toString(hashCode, 16) + ".smali";
         return type;
     }
     public String toSmali() throws IOException {
